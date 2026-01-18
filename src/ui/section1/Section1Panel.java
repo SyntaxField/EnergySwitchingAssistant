@@ -630,9 +630,9 @@ public class Section1Panel extends javax.swing.JPanel {
 
     private void s1PeriodCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PeriodCmboxActionPerformed
         // TODO add your handling code here:
-        String period = s1PeriodCmbox.getSelectedItem().toString();
+        s1Period = s1PeriodCmbox.getSelectedItem().toString();
         // if the monthly option is selected
-        if (period.equals("Monthly")){
+        if (s1Period.equals("Monthly")){
             s1KwhPeriodLbl.setText("kWh for one Month");//updates the label text below period options
             s1KwhPeriodTf.setToolTipText("Enter kWh used in one Month");//when user hover over Monthly option text field, this info is displayed
         }else{ //else use this for Yearly selection
@@ -854,7 +854,15 @@ public class Section1Panel extends javax.swing.JPanel {
 
     private void s1NightPercentCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1NightPercentCmboxActionPerformed
         // TODO add your handling code here:
+        //gets the night percentage selection, converts to string
         s1NightPercentChoice = s1NightPercentCmbox.getSelectedItem().toString();
+        // removes the % symbol and removes blank space
+        String replaceSymbol = s1NightPercentChoice.replace("%","").trim();
+        try{
+           s1NightPercentValue = Integer.parseInt(replaceSymbol); //parses string to int here
+        }catch(NumberFormatException e) {
+            s1NightPercentValue = 0; //if it not a number, this is a safe fallback i.e failsafe to set value to 0
+        }
     }//GEN-LAST:event_s1NightPercentCmboxActionPerformed
 
     public void goForm1() {
