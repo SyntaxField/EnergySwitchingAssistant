@@ -497,6 +497,13 @@ public class Section1Panel extends javax.swing.JPanel {
 
     private void s1PeriodCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PeriodCbActionPerformed
         // TODO add your handling code here:
+        String period = s1PeriodCb.getSelectedItem().toString();
+        // if the monthly option is selected
+        if (period.equals("Monthly")){
+            s1KwhPeriodTf.setToolTipText("Enter kWh used in one Month");
+        }else{ //else use this for Yearly selection
+            s1KwhPeriodTf.setToolTipText("Enter kWh used in one year");
+        }
     }//GEN-LAST:event_s1PeriodCbActionPerformed
 
     private void s1FlatRateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1FlatRateTfActionPerformed

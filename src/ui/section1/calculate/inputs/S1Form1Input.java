@@ -8,6 +8,7 @@ package ui.section1.calculate.inputs;
  *
  * @author jamesmurphy
  */
+// This class takes the inputs from Form1
 public class S1Form1Input {
     
     public static final int TARIFF_DAY_NIGHT = 1;
