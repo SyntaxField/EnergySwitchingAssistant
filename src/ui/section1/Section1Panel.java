@@ -4,6 +4,8 @@
  */
 package ui.section1;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author jamesmurphy
@@ -19,11 +21,18 @@ public class Section1Panel extends javax.swing.JPanel {
     private String s1NightRate;
     private String s1DayRate;
     private String s1FlatRate;
+    private String s1Period;
     
     private boolean s1IncludeVat;
     private boolean s1IncludeStandingCharge;
-    private boolean s1IncludePsoLevy;   
+    private boolean s1IncludePsoLevy;
     
+    // declare variables, used for parsing inputs to double
+    private double s1KwhPeriodValue; 
+    private double s1DayRateValue;
+    private double s1NightRateValue;
+    private double s1FlatRateValue;
+           
     public Section1Panel() {
         initComponents();
         
@@ -47,10 +56,16 @@ public class Section1Panel extends javax.swing.JPanel {
         s1NightRate = "";
         s1DayRate = "";
         s1FlatRate = "";
+        s1Period = "";
         
         s1IncludeVat = false;
         s1IncludeStandingCharge = false;
         s1IncludePsoLevy = false; 
+        
+        //initialise values, used for parsing inputs to double
+        s1DayRateValue = 0.0;
+        s1NightRateValue = 0.0;
+        s1FlatRateValue = 0.0;
      
     }
 
@@ -592,15 +607,78 @@ public class Section1Panel extends javax.swing.JPanel {
 
     private void s1Next1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1Next1BtnActionPerformed
         //captures either selected monthly or yearly option, converts to string
-        String period = s1PeriodCb.getSelectedItem().toString(); 
+        s1Period = s1PeriodCb.getSelectedItem().toString(); 
         // captures kwh text from field
-        s1KwhPeriod = s1PeriodCb.getSelectedItem().toString();
+        s1KwhPeriod = s1KwhPeriodTf.getText().strip();
         //captures the tariff type day or night rate
         boolean isDayNight = s1DayNightRateRbtn.isSelected();
         //captures tariff rate flat rate
         boolean isFlat = s1FlatRateRbtn.isSelected();
+        //text taken from input fields and stored in variables
+        s1DayRate = s1DayRateTf.getText().strip();
+        s1NightRate = s1NightRateTf.getText().strip();
+        s1FlatRate = s1FlatRateTf.getText().strip();
+        //user selected cb options stored here 
+        s1IncludeVat = s1UnitRateVatCb.isSelected();
+        s1IncludeStandingCharge = s1StandingChargeCb.isSelected();
+        s1IncludePsoLevy = s1PsoLevyCb.isSelected();
+        //validation for empty input kWh field
+        if(s1KwhPeriod.equals("")){
+            JOptionPane.showMessageDialog(null,"Please enter kWh for the selected period");
+            return;
+        }
+        //validation when neither option for Day & Night or Flat Rate is selected
+        if(!isDayNight && !isFlat){
+            JOptionPane.showMessageDialog(null,"Please select Day & Night or Flat Rate");
+            return;
+        }
         
-        
+        try{
+            s1KwhPeriodValue = Double.parseDouble(s1KwhPeriod); //parses s1KwhPeriod and then stores the value as a double in s1KwhPeriodValue
+            if (s1KwhPeriodValue <= 0) {
+                JOptionPane.showMessageDialog(null,"Kwh must be greater than 0");
+                return;
+            }
+        } catch(NumberFormatException e){ 
+            JOptionPane.showMessageDialog(null,"kWh must be a number");
+            return;
+        }
+        //validation for Day & Night rate input fields
+        if (isDayNight) {
+            if (s1DayRate.equals("") || s1NightRate.equals("")) {
+                JOptionPane.showMessageDialog(null, "Please enter both Day Rate and also Night Rate");
+                return;
+            }
+            try {
+                s1DayRateValue = Double.parseDouble(s1DayRate);
+                s1NightRateValue = Double.parseDouble(s1NightRate);
+                if (s1DayRateValue <0 || s1NightRateValue <0){
+                    JOptionPane.showMessageDialog(null,"Must not be a negative number. Please input more than 0");
+                    return;
+                }
+            }catch(NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,"Day Rate and also Night Rate must be a valid number");
+                return;
+            }
+        }
+        //validation for flat rate input field
+        if (isFlat){
+            if (s1FlatRate.equals("")){
+                JOptionPane.showMessageDialog(null,"Please enter the Flat Rate");
+                return;
+            }
+            try{
+                s1FlatRateValue = Double.parseDouble(s1FlatRate);
+                if (s1FlatRateValue <0) {
+                    JOptionPane.showMessageDialog(null,"The Flat Rate cannot be a negative number");
+                    return;
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Flat Rate must be a valid number");
+                return;
+            }
+        }
+        // moves to next form (form 2)
         tabsS1.setSelectedIndex(1);
         
         
