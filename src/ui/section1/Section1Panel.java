@@ -81,6 +81,7 @@ public class Section1Panel extends javax.swing.JPanel {
         s1DayRateValue = 0.0;
         s1NightRateValue = 0.0;
         s1FlatRateValue = 0.0;
+        s1KwhPeriodValue = 0.0;
         
         //form 2
         s1EnergySetup = "";
