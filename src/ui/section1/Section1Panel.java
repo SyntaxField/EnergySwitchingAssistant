@@ -500,9 +500,11 @@ public class Section1Panel extends javax.swing.JPanel {
         String period = s1PeriodCb.getSelectedItem().toString();
         // if the monthly option is selected
         if (period.equals("Monthly")){
-            s1KwhPeriodTf.setToolTipText("Enter kWh used in one Month");
+            s1KwhPeriodLbl.setText("Enter kWh used in one Month");//updates the label text below period options
+            s1KwhPeriodTf.setToolTipText("Enter kWh used in one Month");//when user hover over Monthly option, this info is displayed
         }else{ //else use this for Yearly selection
-            s1KwhPeriodTf.setToolTipText("Enter kWh used in one year");
+            s1KwhPeriodLbl.setText("Enter kWh used in one Year");//updates the label text below period options
+            s1KwhPeriodTf.setToolTipText("Enter kWh used in one year");//when user hover over Yearly option, this info is displayed
         }
     }//GEN-LAST:event_s1PeriodCbActionPerformed
 
