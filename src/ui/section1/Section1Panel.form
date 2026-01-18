@@ -83,7 +83,7 @@
                                               <Component id="s1FlatRateRbtn" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="s1PeriodCb" min="-2" max="-2" attributes="0"/>
+                                              <Component id="s1PeriodCmbox" min="-2" max="-2" attributes="0"/>
                                               <Component id="s1KwhPeriodTf" min="-2" pref="189" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -119,7 +119,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="s1PeriodCb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1PeriodCmbox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="s1PeriodLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -168,7 +168,7 @@
                 <Property name="text" type="java.lang.String" value="Period"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="s1PeriodCb">
+            <Component class="javax.swing.JComboBox" name="s1PeriodCmbox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
@@ -178,7 +178,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1PeriodCbActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1PeriodCmboxActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -307,7 +307,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="s1EnergySetupCb" pref="200" max="32767" attributes="0"/>
+                                  <Component id="s1EnergySetupCmbox" pref="200" max="32767" attributes="0"/>
                                   <Component id="s1PeopleSpn" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -318,8 +318,8 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="s1NightPercentCb" max="32767" attributes="0"/>
-                                  <Component id="s1PrimaryHeatingCb" max="32767" attributes="0"/>
+                                  <Component id="s1NightPercentCmbox" max="32767" attributes="0"/>
+                                  <Component id="s1PrimaryHeatingCmbox" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" attributes="0">
@@ -337,7 +337,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="s1EnergySetupCb" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1EnergySetupCmbox" min="-2" max="-2" attributes="0"/>
                           <Component id="s1HomeEnergySetupLbl" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -348,11 +348,11 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="s1ApproxNightUsageLbl" min="-2" max="-2" attributes="0"/>
-                          <Component id="s1NightPercentCb" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1NightPercentCmbox" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="s1PrimaryHeatingCb" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1PrimaryHeatingCmbox" min="-2" max="-2" attributes="0"/>
                           <Component id="s1PrimaryHeatingLbl" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
@@ -371,7 +371,7 @@
                 <Property name="text" type="java.lang.String" value="Home Energy Setup"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="s1EnergySetupCb">
+            <Component class="javax.swing.JComboBox" name="s1EnergySetupCmbox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -381,6 +381,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1EnergySetupCmboxActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -391,13 +394,16 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="s1PeopleSpn">
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="s1PeopleSpnStateChanged"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="s1ApproxNightUsageLbl">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Approx Night Usage"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="s1NightPercentCb">
+            <Component class="javax.swing.JComboBox" name="s1NightPercentCmbox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="5">
@@ -409,6 +415,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1NightPercentCmboxActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -418,7 +427,7 @@
                 <Property name="text" type="java.lang.String" value="Primary Heating"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="s1PrimaryHeatingCb">
+            <Component class="javax.swing.JComboBox" name="s1PrimaryHeatingCmbox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="5">
@@ -431,7 +440,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1PrimaryHeatingCbActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1PrimaryHeatingCmboxActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

@@ -17,6 +17,7 @@ public class Section1Panel extends javax.swing.JPanel {
      */
     
     //variables
+    // form 1
     private String s1KwhPeriod;
     private String s1NightRate;
     private String s1DayRate;
@@ -26,18 +27,30 @@ public class Section1Panel extends javax.swing.JPanel {
     private boolean s1IncludeVat;
     private boolean s1IncludeStandingCharge;
     private boolean s1IncludePsoLevy;
-    
+
     // declare variables, used for parsing inputs to double
     private double s1KwhPeriodValue; 
     private double s1DayRateValue;
     private double s1NightRateValue;
     private double s1FlatRateValue;
-           
+    
+    //form 2
+    private String s1EnergySetup;
+    private int s1PeopleCount;
+    private String s1NightPercentChoice;
+    
+    private int s1NightPercentValue; //for parsing s1NightPercentChoice to int
+    
+    private String s1PrimaryHeatingChoice;
+    private boolean s1PrimaryHeatingElectric;
+
+    //constructor       
     public Section1Panel() {
         initComponents();
         
  
         //hides fields until set to true
+        //form 1 
         s1DayRateTf.setVisible(false); 
         s1NightRateTf.setVisible(false);
         s1FlatRateTf.setVisible(false);
@@ -46,12 +59,14 @@ public class Section1Panel extends javax.swing.JPanel {
         s1PsoLevyCb.setVisible(false);
         
         //hides labels
+        // form 1
         s1NightRateLbl.setVisible(false);
         s1FlatRateLbl.setVisible(false);
         s1DayRateLbl.setVisible(false);
         
         
         //initialise values
+        //Form 1
         s1KwhPeriod = "";
         s1NightRate = "";
         s1DayRate = "";
@@ -62,10 +77,19 @@ public class Section1Panel extends javax.swing.JPanel {
         s1IncludeStandingCharge = false;
         s1IncludePsoLevy = false; 
         
-        //initialise values, used for parsing inputs to double
+        //Form 1: initialises the values, used for parsing inputs to double
         s1DayRateValue = 0.0;
         s1NightRateValue = 0.0;
         s1FlatRateValue = 0.0;
+        
+        //form 2
+        s1EnergySetup = "";
+        s1PeopleCount = 1;
+        s1NightPercentChoice = "";
+        s1NightPercentValue = 0;
+        s1PrimaryHeatingChoice = "";
+        s1PrimaryHeatingElectric = false;
+
      
     }
 
@@ -83,7 +107,7 @@ public class Section1Panel extends javax.swing.JPanel {
         tabsS1 = new javax.swing.JTabbedPane();
         Form1 = new javax.swing.JPanel();
         s1PeriodLbl = new javax.swing.JLabel();
-        s1PeriodCb = new javax.swing.JComboBox<>();
+        s1PeriodCmbox = new javax.swing.JComboBox<>();
         s1KwhPeriodLbl = new javax.swing.JLabel();
         s1KwhPeriodTf = new javax.swing.JTextField();
         s1TariffTypeLbl = new javax.swing.JLabel();
@@ -101,13 +125,13 @@ public class Section1Panel extends javax.swing.JPanel {
         s1Next1Btn = new javax.swing.JButton();
         Form2 = new javax.swing.JPanel();
         s1HomeEnergySetupLbl = new javax.swing.JLabel();
-        s1EnergySetupCb = new javax.swing.JComboBox<>();
+        s1EnergySetupCmbox = new javax.swing.JComboBox<>();
         s1PeopleInHomeLbl = new javax.swing.JLabel();
         s1PeopleSpn = new javax.swing.JSpinner();
         s1ApproxNightUsageLbl = new javax.swing.JLabel();
-        s1NightPercentCb = new javax.swing.JComboBox<>();
+        s1NightPercentCmbox = new javax.swing.JComboBox<>();
         s1PrimaryHeatingLbl = new javax.swing.JLabel();
-        s1PrimaryHeatingCb = new javax.swing.JComboBox<>();
+        s1PrimaryHeatingCmbox = new javax.swing.JComboBox<>();
         s1Form2BackBtn = new javax.swing.JButton();
         s1Form2NextBtn = new javax.swing.JButton();
         Results = new javax.swing.JPanel();
@@ -138,10 +162,10 @@ public class Section1Panel extends javax.swing.JPanel {
 
         s1PeriodLbl.setText("Period");
 
-        s1PeriodCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Monthly", "Yearly" }));
-        s1PeriodCb.addActionListener(new java.awt.event.ActionListener() {
+        s1PeriodCmbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Monthly", "Yearly" }));
+        s1PeriodCmbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                s1PeriodCbActionPerformed(evt);
+                s1PeriodCmboxActionPerformed(evt);
             }
         });
 
@@ -256,7 +280,7 @@ public class Section1Panel extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(s1FlatRateRbtn))
                                     .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(s1PeriodCb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(s1PeriodCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(s1KwhPeriodTf, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(Form1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -279,7 +303,7 @@ public class Section1Panel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Form1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1PeriodCb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1PeriodCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(s1PeriodLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -317,20 +341,36 @@ public class Section1Panel extends javax.swing.JPanel {
 
         s1HomeEnergySetupLbl.setText("Home Energy Setup");
 
-        s1EnergySetupCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Solar", "Solar and Inverter", "Solar & Battery" }));
+        s1EnergySetupCmbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Solar", "Solar and Inverter", "Solar & Battery" }));
+        s1EnergySetupCmbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1EnergySetupCmboxActionPerformed(evt);
+            }
+        });
 
         s1PeopleInHomeLbl.setText("People in home");
 
+        s1PeopleSpn.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                s1PeopleSpnStateChanged(evt);
+            }
+        });
+
         s1ApproxNightUsageLbl.setText("Approx Night Usage");
 
-        s1NightPercentCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "20%", "30%", "40%", "50%", "60%" }));
+        s1NightPercentCmbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "20%", "30%", "40%", "50%", "60%" }));
+        s1NightPercentCmbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1NightPercentCmboxActionPerformed(evt);
+            }
+        });
 
         s1PrimaryHeatingLbl.setText("Primary Heating");
 
-        s1PrimaryHeatingCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electric", "Gas", "Oil", "Heat Pump", "Solid Fuel" }));
-        s1PrimaryHeatingCb.addActionListener(new java.awt.event.ActionListener() {
+        s1PrimaryHeatingCmbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electric", "Gas", "Oil", "Heat Pump", "Solid Fuel" }));
+        s1PrimaryHeatingCmbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                s1PrimaryHeatingCbActionPerformed(evt);
+                s1PrimaryHeatingCmboxActionPerformed(evt);
             }
         });
 
@@ -361,7 +401,7 @@ public class Section1Panel extends javax.swing.JPanel {
                             .addComponent(s1PeopleInHomeLbl))
                         .addGap(18, 18, 18)
                         .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(s1EnergySetupCb, 0, 200, Short.MAX_VALUE)
+                            .addComponent(s1EnergySetupCmbox, 0, 200, Short.MAX_VALUE)
                             .addComponent(s1PeopleSpn)))
                     .addGroup(Form2Layout.createSequentialGroup()
                         .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,8 +409,8 @@ public class Section1Panel extends javax.swing.JPanel {
                             .addComponent(s1PrimaryHeatingLbl))
                         .addGap(18, 18, 18)
                         .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(s1NightPercentCb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(s1PrimaryHeatingCb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(s1NightPercentCmbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(s1PrimaryHeatingCmbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(Form2Layout.createSequentialGroup()
                         .addComponent(s1Form2BackBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -382,7 +422,7 @@ public class Section1Panel extends javax.swing.JPanel {
             .addGroup(Form2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(s1EnergySetupCb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1EnergySetupCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(s1HomeEnergySetupLbl))
                 .addGap(18, 18, 18)
                 .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -391,10 +431,10 @@ public class Section1Panel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(s1ApproxNightUsageLbl)
-                    .addComponent(s1NightPercentCb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(s1NightPercentCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(s1PrimaryHeatingCb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1PrimaryHeatingCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(s1PrimaryHeatingLbl))
                 .addGap(35, 35, 35)
                 .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -587,9 +627,9 @@ public class Section1Panel extends javax.swing.JPanel {
         add(tabsS1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void s1PeriodCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PeriodCbActionPerformed
+    private void s1PeriodCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PeriodCmboxActionPerformed
         // TODO add your handling code here:
-        String period = s1PeriodCb.getSelectedItem().toString();
+        String period = s1PeriodCmbox.getSelectedItem().toString();
         // if the monthly option is selected
         if (period.equals("Monthly")){
             s1KwhPeriodLbl.setText("kWh for one Month");//updates the label text below period options
@@ -598,7 +638,7 @@ public class Section1Panel extends javax.swing.JPanel {
             s1KwhPeriodLbl.setText("kWh for one Year");//updates the label text below period options
             s1KwhPeriodTf.setToolTipText("Enter kWh used in one year");//when user hover over Yearly option text field, this info is displayed
         }
-    }//GEN-LAST:event_s1PeriodCbActionPerformed
+    }//GEN-LAST:event_s1PeriodCmboxActionPerformed
 
     private void s1FlatRateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1FlatRateTfActionPerformed
         // TODO add your handling code here:
@@ -607,7 +647,7 @@ public class Section1Panel extends javax.swing.JPanel {
 
     private void s1Next1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1Next1BtnActionPerformed
         //captures either selected monthly or yearly option, converts to string
-        s1Period = s1PeriodCb.getSelectedItem().toString(); 
+        s1Period = s1PeriodCmbox.getSelectedItem().toString(); 
         // captures kwh text from field
         s1KwhPeriod = s1KwhPeriodTf.getText().strip();
         //captures the tariff type day or night rate
@@ -689,6 +729,26 @@ public class Section1Panel extends javax.swing.JPanel {
     }//GEN-LAST:event_s1Form2BackBtnActionPerformed
 
     private void s1Form2NextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1Form2NextBtnActionPerformed
+    //capture the form 2 values when clicked
+        //captures energy set up selection
+        s1EnergySetup = s1EnergySetupCmbox.getSelectedItem().toString();
+        //capture the spinner value
+        s1PeopleCount = (int) s1PeopleSpn.getValue();
+        //captures the night percentage selection
+        s1NightPercentChoice = s1NightPercentCmbox.getSelectedItem().toString();
+        // captures the primary heating selection
+        s1PrimaryHeatingChoice = s1PrimaryHeatingCmbox.getSelectedItem().toString();
+        
+        //when button clicked this gets the true,false value for primary heating choice
+        // if Electric is picked, then sets to true , else its false
+        s1PrimaryHeatingElectric = s1PrimaryHeatingChoice.equals("Electric");
+        
+        //validation for no. of people, has to be greater than 0
+        if (s1PeopleCount <= 0) {
+            JOptionPane.showMessageDialog(null, "Number of people must be at least 1"); 
+            return;
+        }
+        //moves to results tab
         tabsS1.setSelectedIndex(2);
     }//GEN-LAST:event_s1Form2NextBtnActionPerformed
 
@@ -707,9 +767,11 @@ public class Section1Panel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_s1KwhPeriodTfActionPerformed
 
-    private void s1PrimaryHeatingCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PrimaryHeatingCbActionPerformed
+    private void s1PrimaryHeatingCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PrimaryHeatingCmboxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_s1PrimaryHeatingCbActionPerformed
+        s1PrimaryHeatingChoice = s1PrimaryHeatingCmbox.getSelectedItem().toString();
+        s1PrimaryHeatingElectric = s1PrimaryHeatingChoice.equals("Electric");
+    }//GEN-LAST:event_s1PrimaryHeatingCmboxActionPerformed
 
     private void s1UnitRateVatCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1UnitRateVatCbActionPerformed
         // TODO add your handling code here:
@@ -777,6 +839,23 @@ public class Section1Panel extends javax.swing.JPanel {
         s1IncludePsoLevy = s1PsoLevyCb.isSelected();
     }//GEN-LAST:event_s1PsoLevyCbActionPerformed
 
+    private void s1EnergySetupCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1EnergySetupCmboxActionPerformed
+        // TODO add your handling code here:
+        //capture selection for energy setup
+        s1EnergySetup = s1EnergySetupCmbox.getSelectedItem().toString();
+        
+    }//GEN-LAST:event_s1EnergySetupCmboxActionPerformed
+
+    private void s1PeopleSpnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_s1PeopleSpnStateChanged
+        // TODO add your handling code here:
+        s1PeopleCount = (int) s1PeopleSpn.getValue(); //captures the spinners value as an integer
+    }//GEN-LAST:event_s1PeopleSpnStateChanged
+
+    private void s1NightPercentCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1NightPercentCmboxActionPerformed
+        // TODO add your handling code here:
+        s1NightPercentChoice = s1NightPercentCmbox.getSelectedItem().toString();
+    }//GEN-LAST:event_s1NightPercentCmboxActionPerformed
+
     public void goForm1() {
         tabsS1.setSelectedIndex(0);
     }
@@ -809,7 +888,7 @@ public class Section1Panel extends javax.swing.JPanel {
     private javax.swing.JLabel s1DayRateLbl;
     private javax.swing.JTextField s1DayRateTf;
     private javax.swing.JButton s1Done3Btn;
-    private javax.swing.JComboBox<String> s1EnergySetupCb;
+    private javax.swing.JComboBox<String> s1EnergySetupCmbox;
     private javax.swing.JLabel s1FlatRateLbl;
     private javax.swing.JRadioButton s1FlatRateRbtn;
     private javax.swing.JTextField s1FlatRateTf;
@@ -820,14 +899,14 @@ public class Section1Panel extends javax.swing.JPanel {
     private javax.swing.JLabel s1KwhPeriodLbl;
     private javax.swing.JTextField s1KwhPeriodTf;
     private javax.swing.JButton s1Next1Btn;
-    private javax.swing.JComboBox<String> s1NightPercentCb;
+    private javax.swing.JComboBox<String> s1NightPercentCmbox;
     private javax.swing.JLabel s1NightRateLbl;
     private javax.swing.JTextField s1NightRateTf;
     private javax.swing.JLabel s1PeopleInHomeLbl;
     private javax.swing.JSpinner s1PeopleSpn;
-    private javax.swing.JComboBox<String> s1PeriodCb;
+    private javax.swing.JComboBox<String> s1PeriodCmbox;
     private javax.swing.JLabel s1PeriodLbl;
-    private javax.swing.JComboBox<String> s1PrimaryHeatingCb;
+    private javax.swing.JComboBox<String> s1PrimaryHeatingCmbox;
     private javax.swing.JLabel s1PrimaryHeatingLbl;
     private javax.swing.JCheckBox s1PsoLevyCb;
     private javax.swing.JLabel s1ResCostPeriodValueLbl;
