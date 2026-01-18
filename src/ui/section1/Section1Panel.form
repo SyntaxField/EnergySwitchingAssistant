@@ -48,27 +48,34 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="s1NightRateLbl" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="s1FlatRateTf" min="-2" pref="189" max="-2" attributes="0"/>
+                                      <Component id="s1NightRateTf" min="-2" pref="189" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="s1DayRateLbl" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="DayRateTf" min="-2" pref="189" max="-2" attributes="0"/>
+                                      <Component id="s1DayRateTf" min="-2" pref="189" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="s1PeriodLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="s1KwhPeriodLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="s1TariffTypeLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="s1PeriodLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="s1TariffTypeLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="s1KwhPeriodLbl" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Component id="s1DayNightRateRbtn" min="-2" max="-2" attributes="0"/>
@@ -83,26 +90,27 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="s1PsoLevyCb" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="s1FlatRateLbl" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="s1FlatRateTf" min="-2" pref="189" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="s1PsoLevyCb" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="s1StandingChargeCb" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="s1UnitRateVatCb" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="s1Next1Btn" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="s1StandingChargeCb" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="s1UnitRateVatCb" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="s1FlatRateLbl" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                                      <Component id="NightRateTf" min="-2" pref="189" max="-2" attributes="0"/>
-                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="45" max="32767" attributes="0"/>
+                      <EmptySpace pref="163" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -115,9 +123,9 @@
                           <Component id="s1PeriodLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="s1KwhPeriodLbl" min="-2" max="-2" attributes="0"/>
-                          <Component id="s1KwhPeriodTf" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="s1KwhPeriodTf" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1KwhPeriodLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -128,30 +136,28 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="s1DayRateLbl" min="-2" max="-2" attributes="0"/>
-                          <Component id="DayRateTf" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="s1NightRateLbl" min="-2" max="-2" attributes="0"/>
-                          <Component id="s1FlatRateTf" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1DayRateTf" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="NightRateTf" min="-2" max="-2" attributes="0"/>
-                          <Component id="s1FlatRateLbl" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="s1NightRateLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1NightRateTf" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="s1FlatRateLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1FlatRateTf" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="s1UnitRateVatCb" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="s1StandingChargeCb" min="-2" pref="33" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                              <Component id="s1PsoLevyCb" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="s1Next1Btn" min="-2" max="-2" attributes="0"/>
+                      <Component id="s1UnitRateVatCb" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="s1StandingChargeCb" min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="s1PsoLevyCb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="s1Next1Btn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="35" max="32767" attributes="0"/>
+                      <EmptySpace pref="38" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -180,7 +186,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="s1KwhPeriodLbl">
               <Properties>
-                <Property name="text" type="java.lang.String" value="kWh for period"/>
+                <Property name="text" type="java.lang.String" value="kWh for one Month"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="s1KwhPeriodTf">
@@ -200,6 +206,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Day &amp; Night"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1DayNightRateRbtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="s1FlatRateRbtn">
               <Properties>
@@ -208,6 +217,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Flat Rate"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1FlatRateRbtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="s1DayRateLbl">
               <Properties>
@@ -224,9 +236,15 @@
                 <Property name="text" type="java.lang.String" value="Flat Rate (&#x20ac;/kWh)"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="DayRateTf">
+            <Component class="javax.swing.JTextField" name="s1DayRateTf">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1DayRateTfActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="NightRateTf">
+            <Component class="javax.swing.JTextField" name="s1NightRateTf">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1NightRateTfActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="s1FlatRateTf">
               <Events>
@@ -237,16 +255,25 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Unit Rate includes VAT"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1UnitRateVatCbActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="s1StandingChargeCb">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Include standing charge"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1StandingChargeCbActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="s1PsoLevyCb">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Include PSO levy"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="s1PsoLevyCbActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="s1Next1Btn">
               <Properties>
@@ -333,7 +360,7 @@
                           <Component id="s1Form2BackBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="s1Form2NextBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="116" max="32767" attributes="0"/>
+                      <EmptySpace pref="123" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -468,7 +495,7 @@
                           <Component id="s1Done3Btn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="s1ResultsBackBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="48" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
