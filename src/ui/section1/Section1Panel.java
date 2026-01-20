@@ -5,6 +5,10 @@
 package ui.section1;
 
 import javax.swing.JOptionPane;
+import ui.section1.calculate.inputs.S1Form1Input;
+import ui.section1.calculate.inputs.S1Result;
+import ui.section1.calculate.logic.Section1Logic;
+import ui.section1.storage.S1ResultStore;
 
 /**
  *
@@ -15,7 +19,6 @@ public class Section1Panel extends javax.swing.JPanel {
     /**
      * Creates new form Section1Panel
      */
-    
     //variables
     // form 1
     private String s1KwhPeriod;
@@ -23,48 +26,51 @@ public class Section1Panel extends javax.swing.JPanel {
     private String s1DayRate;
     private String s1FlatRate;
     private String s1Period;
-    
+
     private boolean s1IncludeVat;
     private boolean s1IncludeStandingCharge;
     private boolean s1IncludePsoLevy;
 
     // declare variables, used for parsing inputs to double
-    private double s1KwhPeriodValue; 
+    private double s1KwhPeriodValue;
     private double s1DayRateValue;
     private double s1NightRateValue;
     private double s1FlatRateValue;
-    
+
     //form 2
     private String s1EnergySetup;
     private int s1PeopleCount;
     private String s1NightPercentChoice;
-    
+
     private int s1NightPercentValue; //for parsing s1NightPercentChoice to int
-    
+
     private String s1PrimaryHeatingChoice;
     private boolean s1PrimaryHeatingElectric;
+    
+    //results tab
+    private S1Result currentResult;
+    private S1ResultStore resultStore;
+    
 
     //constructor       
     public Section1Panel() {
         initComponents();
-        
- 
+
         //hides fields until set to true
         //form 1 
-        s1DayRateTf.setVisible(false); 
+        s1DayRateTf.setVisible(false);
         s1NightRateTf.setVisible(false);
         s1FlatRateTf.setVisible(false);
         s1UnitRateVatCb.setVisible(false);
         s1StandingChargeCb.setVisible(false);
         s1PsoLevyCb.setVisible(false);
-        
+
         //hides labels
         // form 1
         s1NightRateLbl.setVisible(false);
         s1FlatRateLbl.setVisible(false);
         s1DayRateLbl.setVisible(false);
-        
-        
+
         //initialise values
         //Form 1
         s1KwhPeriod = "";
@@ -72,17 +78,17 @@ public class Section1Panel extends javax.swing.JPanel {
         s1DayRate = "";
         s1FlatRate = "";
         s1Period = "";
-        
+
         s1IncludeVat = false;
         s1IncludeStandingCharge = false;
-        s1IncludePsoLevy = false; 
-        
+        s1IncludePsoLevy = false;
+
         //Form 1: initialises the values, used for parsing inputs to double
         s1DayRateValue = 0.0;
         s1NightRateValue = 0.0;
         s1FlatRateValue = 0.0;
         s1KwhPeriodValue = 0.0;
-        
+
         //form 2
         s1EnergySetup = "";
         s1PeopleCount = 1;
@@ -90,8 +96,15 @@ public class Section1Panel extends javax.swing.JPanel {
         s1NightPercentValue = 0;
         s1PrimaryHeatingChoice = "";
         s1PrimaryHeatingElectric = false;
+        
+        //disable form 2 and the results tab
+        tabsS1.setEnabledAt(1, false);
+        tabsS1.setEnabledAt(2, false);
+        
+        //results tab
+        currentResult = null;
+        resultStore = new S1ResultStore();
 
-     
     }
 
     /**
@@ -149,12 +162,11 @@ public class Section1Panel extends javax.swing.JPanel {
         s1ResTypCompareValueLbl = new javax.swing.JLabel();
         s1AdviceComparisonScrl = new javax.swing.JScrollPane();
         s1AdviceComparisonTa = new javax.swing.JTextArea();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        s1ResultsCardTitleLbl = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
         s1Done3Btn = new javax.swing.JButton();
         s1ResultsBackBtn = new javax.swing.JButton();
+        s1ResultsRemoveBtn = new javax.swing.JButton();
+        s1ResultsResetBtn = new javax.swing.JButton();
+        s1ResultsSaveBtn = new javax.swing.JButton();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -253,89 +265,82 @@ public class Section1Panel extends javax.swing.JPanel {
         Form1Layout.setHorizontalGroup(
             Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Form1Layout.createSequentialGroup()
-                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(49, 49, 49)
+                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(Form1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Form1Layout.createSequentialGroup()
-                                .addComponent(s1NightRateLbl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(s1NightRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(Form1Layout.createSequentialGroup()
-                                .addComponent(s1DayRateLbl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(s1DayRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(Form1Layout.createSequentialGroup()
-                                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(Form1Layout.createSequentialGroup()
-                                        .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(s1PeriodLbl)
-                                            .addComponent(s1TariffTypeLbl))
-                                        .addGap(152, 152, 152))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Form1Layout.createSequentialGroup()
-                                        .addComponent(s1KwhPeriodLbl)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(Form1Layout.createSequentialGroup()
-                                        .addComponent(s1DayNightRateRbtn)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(s1FlatRateRbtn))
-                                    .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(s1PeriodCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(s1KwhPeriodTf, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(Form1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(Form1Layout.createSequentialGroup()
-                                .addComponent(s1FlatRateLbl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(s1FlatRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(Form1Layout.createSequentialGroup()
-                                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(s1PsoLevyCb, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(s1StandingChargeCb, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(s1UnitRateVatCb, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(s1Next1Btn)))))
-                .addContainerGap(163, Short.MAX_VALUE))
+                                .addComponent(s1PsoLevyCb)
+                                .addGap(39, 39, 39))
+                            .addComponent(s1UnitRateVatCb)
+                            .addComponent(s1StandingChargeCb))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 257, Short.MAX_VALUE)
+                        .addComponent(s1Next1Btn))
+                    .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(Form1Layout.createSequentialGroup()
+                            .addComponent(s1FlatRateLbl)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(s1FlatRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Form1Layout.createSequentialGroup()
+                            .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(s1NightRateLbl)
+                                .addComponent(s1DayRateLbl)
+                                .addComponent(s1TariffTypeLbl)
+                                .addComponent(s1KwhPeriodLbl)
+                                .addComponent(s1PeriodLbl))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                            .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(s1KwhPeriodTf, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(s1DayRateTf)
+                                    .addComponent(s1NightRateTf)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Form1Layout.createSequentialGroup()
+                                        .addComponent(s1DayNightRateRbtn)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                                        .addComponent(s1FlatRateRbtn)))
+                                .addComponent(s1PeriodCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         Form1Layout.setVerticalGroup(
             Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Form1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1PeriodCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(s1PeriodLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1KwhPeriodTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(s1KwhPeriodLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1FlatRateRbtn)
                     .addComponent(s1DayNightRateRbtn)
                     .addComponent(s1TariffTypeLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(s1DayRateLbl)
-                    .addComponent(s1DayRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addGap(18, 18, 18)
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1NightRateLbl)
-                    .addComponent(s1NightRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(s1DayRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1DayRateLbl))
+                .addGap(18, 18, 18)
                 .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1FlatRateLbl)
-                    .addComponent(s1FlatRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(s1NightRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1NightRateLbl))
+                .addGap(18, 18, 18)
+                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(s1FlatRateTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1FlatRateLbl))
+                .addGap(18, 18, 18)
                 .addComponent(s1UnitRateVatCb)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(s1StandingChargeCb, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1PsoLevyCb)
-                    .addComponent(s1Next1Btn))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGroup(Form1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Form1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(s1Next1Btn))
+                    .addGroup(Form1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(s1PsoLevyCb)))
+                .addGap(65, 65, 65))
         );
 
         tabsS1.addTab("Form 1", Form1);
@@ -394,54 +399,51 @@ public class Section1Panel extends javax.swing.JPanel {
         Form2Layout.setHorizontalGroup(
             Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Form2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(63, 63, 63)
+                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(s1HomeEnergySetupLbl)
+                    .addComponent(s1PeopleInHomeLbl)
+                    .addComponent(s1ApproxNightUsageLbl)
+                    .addComponent(s1PrimaryHeatingLbl)
+                    .addComponent(s1Form2BackBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Form2Layout.createSequentialGroup()
+                        .addComponent(s1EnergySetupCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84))
                     .addGroup(Form2Layout.createSequentialGroup()
-                        .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(s1HomeEnergySetupLbl)
-                            .addComponent(s1PeopleInHomeLbl))
-                        .addGap(18, 18, 18)
-                        .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(s1EnergySetupCmbox, 0, 200, Short.MAX_VALUE)
-                            .addComponent(s1PeopleSpn)))
-                    .addGroup(Form2Layout.createSequentialGroup()
-                        .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(s1ApproxNightUsageLbl)
-                            .addComponent(s1PrimaryHeatingLbl))
-                        .addGap(18, 18, 18)
-                        .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(s1NightPercentCmbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(s1PrimaryHeatingCmbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(Form2Layout.createSequentialGroup()
-                        .addComponent(s1Form2BackBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(s1Form2NextBtn)))
-                .addContainerGap(232, Short.MAX_VALUE))
+                        .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(s1Form2NextBtn)
+                            .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(s1PeopleSpn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(s1NightPercentCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(s1PrimaryHeatingCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         Form2Layout.setVerticalGroup(
             Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Form2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(s1EnergySetupCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(s1HomeEnergySetupLbl))
+                .addGap(56, 56, 56)
+                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(s1HomeEnergySetupLbl)
+                    .addComponent(s1EnergySetupCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1PeopleInHomeLbl)
                     .addComponent(s1PeopleSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(s1ApproxNightUsageLbl)
-                    .addComponent(s1NightPercentCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(s1NightPercentCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1ApproxNightUsageLbl))
+                .addGap(24, 24, 24)
+                .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1PrimaryHeatingCmbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(s1PrimaryHeatingLbl))
-                .addGap(35, 35, 35)
+                .addGap(69, 69, 69)
                 .addGroup(Form2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1Form2BackBtn)
-                    .addComponent(s1Form2NextBtn))
-                .addContainerGap(123, Short.MAX_VALUE))
+                    .addComponent(s1Form2NextBtn)
+                    .addComponent(s1Form2BackBtn))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         tabsS1.addTab("Form 2", Form2);
@@ -480,7 +482,7 @@ public class Section1Panel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(s1AdviceComparisonScrl, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1AdviceComparisonScrl)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(s1TotalPeriodCostLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -488,95 +490,42 @@ public class Section1Panel extends javax.swing.JPanel {
                             .addComponent(s1AnnualCostLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(s1HouseComparisonLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(s1TotalPeriodKwhLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(s1ResKwhPeriodValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(s1ResCostPeriodValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(s1ResKwhPeriodValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(s1ResKwhYearValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(s1ResTypCompareValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(s1ResCostYearValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(s1ResCostYearValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(s1ResTypCompareValueLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1TotalPeriodKwhLbl)
                     .addComponent(s1ResKwhPeriodValueLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1ResCostPeriodValueLbl)
-                    .addComponent(s1TotalPeriodCostLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(s1TotalPeriodCostLbl)
+                    .addComponent(s1ResCostPeriodValueLbl))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1ResKwhYearValueLbl)
-                    .addComponent(s1AnnualKwhLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(s1AnnualKwhLbl)
+                    .addComponent(s1ResKwhYearValueLbl))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(s1ResCostYearValueLbl)
-                    .addComponent(s1AnnualCostLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(s1ResTypCompareValueLbl)
-                    .addComponent(s1HouseComparisonLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(s1AnnualCostLbl)
+                    .addComponent(s1ResCostYearValueLbl))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(s1HouseComparisonLbl)
+                    .addComponent(s1ResTypCompareValueLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(s1AdviceComparisonScrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Info Card"));
-
-        s1ResultsCardTitleLbl.setText("Card Title");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(s1ResultsCardTitleLbl)
-                .addContainerGap(96, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(s1ResultsCardTitleLbl)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Image Placeholder"));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         s1Done3Btn.setText("Done");
@@ -593,34 +542,69 @@ public class Section1Panel extends javax.swing.JPanel {
             }
         });
 
+        s1ResultsRemoveBtn.setText("Remove");
+        s1ResultsRemoveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1ResultsRemoveBtnActionPerformed(evt);
+            }
+        });
+
+        s1ResultsResetBtn.setText("Reset");
+        s1ResultsResetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1ResultsResetBtnActionPerformed(evt);
+            }
+        });
+
+        s1ResultsSaveBtn.setText("Save");
+        s1ResultsSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1ResultsSaveBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ResultsLayout = new javax.swing.GroupLayout(Results);
         Results.setLayout(ResultsLayout);
         ResultsLayout.setHorizontalGroup(
             ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ResultsLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ResultsLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(s1ResultsBackBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(s1Done3Btn)
-                .addGap(87, 87, 87))
+                .addContainerGap()
+                .addGroup(ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ResultsLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(ResultsLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(s1ResultsBackBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(s1ResultsRemoveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(148, 148, 148)
+                        .addComponent(s1ResultsResetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(151, 151, 151)
+                        .addGroup(ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(ResultsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(s1Done3Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ResultsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(s1ResultsSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(16, 16, 16))))
         );
         ResultsLayout.setVerticalGroup(
             ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ResultsLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(s1ResultsRemoveBtn)
+                    .addComponent(s1ResultsSaveBtn)
+                    .addComponent(s1ResultsResetBtn))
+                .addGap(18, 18, 18)
                 .addGroup(ResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(s1Done3Btn)
                     .addComponent(s1ResultsBackBtn))
-                .addGap(0, 55, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         tabsS1.addTab("Results", Results);
@@ -632,10 +616,10 @@ public class Section1Panel extends javax.swing.JPanel {
         // TODO add your handling code here:
         s1Period = s1PeriodCmbox.getSelectedItem().toString();
         // if the monthly option is selected
-        if (s1Period.equals("Monthly")){
+        if (s1Period.equals("Monthly")) {
             s1KwhPeriodLbl.setText("kWh for one Month");//updates the label text below period options
             s1KwhPeriodTf.setToolTipText("Enter kWh used in one Month");//when user hover over Monthly option text field, this info is displayed
-        }else{ //else use this for Yearly selection
+        } else { //else use this for Yearly selection
             s1KwhPeriodLbl.setText("kWh for one Year");//updates the label text below period options
             s1KwhPeriodTf.setToolTipText("Enter kWh used in one year");//when user hover over Yearly option text field, this info is displayed
         }
@@ -647,82 +631,85 @@ public class Section1Panel extends javax.swing.JPanel {
     }//GEN-LAST:event_s1FlatRateTfActionPerformed
 
     private void s1Next1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1Next1BtnActionPerformed
-        //captures either selected monthly or yearly option, converts to string
-        s1Period = s1PeriodCmbox.getSelectedItem().toString(); 
-        // captures kwh text from field
-        s1KwhPeriod = s1KwhPeriodTf.getText().strip();
-        //captures the tariff type day or night rate
+        // capture inputs
+        s1Period = s1PeriodCmbox.getSelectedItem().toString();
+        s1KwhPeriod = s1KwhPeriodTf.getText().trim();
+
         boolean isDayNight = s1DayNightRateRbtn.isSelected();
-        //captures tariff rate flat rate
         boolean isFlat = s1FlatRateRbtn.isSelected();
-        //text taken from input fields and stored in variables
-        s1DayRate = s1DayRateTf.getText().strip();
-        s1NightRate = s1NightRateTf.getText().strip();
-        s1FlatRate = s1FlatRateTf.getText().strip();
-        //user selected cb options stored here 
+
+        s1DayRate = s1DayRateTf.getText().trim();
+        s1NightRate = s1NightRateTf.getText().trim();
+        s1FlatRate = s1FlatRateTf.getText().trim();
+
         s1IncludeVat = s1UnitRateVatCb.isSelected();
         s1IncludeStandingCharge = s1StandingChargeCb.isSelected();
         s1IncludePsoLevy = s1PsoLevyCb.isSelected();
-        //validation for empty input kWh field
-        if(s1KwhPeriod.equals("")){
-            JOptionPane.showMessageDialog(null,"Please enter kWh for the selected period");
+
+        // validation for kWh period
+        if (s1KwhPeriod.equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter the kWh for the selected period");
             return;
         }
-        //validation when neither option for Day & Night or Flat Rate is selected
-        if(!isDayNight && !isFlat){
-            JOptionPane.showMessageDialog(null,"Please select Day & Night or Flat Rate");
+
+        // validation for tariff chosen
+        if (!isDayNight && !isFlat) {
+            JOptionPane.showMessageDialog(null, "Please select Day & Night or Flat Rate");
             return;
         }
-        
-        try{
-            s1KwhPeriodValue = Double.parseDouble(s1KwhPeriod); //parses s1KwhPeriod and then stores the value as a double in s1KwhPeriodValue
+
+        // parses kWh to double
+        try {
+            s1KwhPeriodValue = Double.parseDouble(s1KwhPeriod);
             if (s1KwhPeriodValue <= 0) {
-                JOptionPane.showMessageDialog(null,"Kwh must be greater than 0");
+                JOptionPane.showMessageDialog(null, "kWh must be greater than 0");
                 return;
             }
-        } catch(NumberFormatException e){ 
-            JOptionPane.showMessageDialog(null,"kWh must be a number");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "kWh must be a number");
             return;
         }
-        //validation for Day & Night rate input fields
+
+        // Validation for Day & Night text fields
         if (isDayNight) {
-            if (s1DayRate.equals("") || s1NightRate.equals("")) {
-                JOptionPane.showMessageDialog(null, "Please enter both Day Rate and also Night Rate");
+            if (s1DayRate.equals("") || s1NightRate.equals("")) { // if empty
+                JOptionPane.showMessageDialog(null, "Please enter both Day Rate and Night Rate");
+                return;
+            }
+            try { //parses to double
+                s1DayRateValue = Double.parseDouble(s1DayRate);
+                s1NightRateValue = Double.parseDouble(s1NightRate);
+                if (s1DayRateValue < 0 || s1NightRateValue < 0) { //make sure the number is not negative
+                    JOptionPane.showMessageDialog(null, "Rates must not be negative");
+                    return;
+                }
+            } catch (NumberFormatException e) { // for cases where its not a valid number
+                JOptionPane.showMessageDialog(null, "Day rate and Night rate must be valid numbers");
+                return;
+            }
+        }
+        // validation for flat rate text field
+        if (isFlat) {
+            if (s1FlatRate.equals("")) {
+                JOptionPane.showMessageDialog(null, "Please enter the Flat Rate");
                 return;
             }
             try {
-                s1DayRateValue = Double.parseDouble(s1DayRate);
-                s1NightRateValue = Double.parseDouble(s1NightRate);
-                if (s1DayRateValue <0 || s1NightRateValue <0){
-                    JOptionPane.showMessageDialog(null,"Must not be a negative number. Please input more than 0");
-                    return;
-                }
-            }catch(NumberFormatException e) {
-                JOptionPane.showMessageDialog(null,"Day Rate and also Night Rate must be a valid number");
-                return;
-            }
-        }
-        //validation for flat rate input field
-        if (isFlat){
-            if (s1FlatRate.equals("")){
-                JOptionPane.showMessageDialog(null,"Please enter the Flat Rate");
-                return;
-            }
-            try{
                 s1FlatRateValue = Double.parseDouble(s1FlatRate);
-                if (s1FlatRateValue <0) {
-                    JOptionPane.showMessageDialog(null,"The Flat Rate cannot be a negative number");
+                if (s1FlatRateValue < 0) {
+                    JOptionPane.showMessageDialog(null, "Flat Rate must not be negative");
                     return;
                 }
-            }catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null,"Flat Rate must be a valid number");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Flat Rate must be a valid number");
                 return;
             }
         }
-        // moves to next form (form 2)
+
+        //unlock the next tab
+        tabsS1.setEnabledAt(1, true);
+        //go to next tab
         tabsS1.setSelectedIndex(1);
-        
-        
     }//GEN-LAST:event_s1Next1BtnActionPerformed
 
     private void s1Form2BackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1Form2BackBtnActionPerformed
@@ -730,7 +717,7 @@ public class Section1Panel extends javax.swing.JPanel {
     }//GEN-LAST:event_s1Form2BackBtnActionPerformed
 
     private void s1Form2NextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1Form2NextBtnActionPerformed
-    //capture the form 2 values when clicked
+        //capture the form 2 values when clicked
         //captures energy set up selection
         s1EnergySetup = s1EnergySetupCmbox.getSelectedItem().toString();
         //capture the spinner value
@@ -739,16 +726,46 @@ public class Section1Panel extends javax.swing.JPanel {
         s1NightPercentChoice = s1NightPercentCmbox.getSelectedItem().toString();
         // captures the primary heating selection
         s1PrimaryHeatingChoice = s1PrimaryHeatingCmbox.getSelectedItem().toString();
-        
+
         //when button clicked this gets the true,false value for primary heating choice
         // if Electric is picked, then sets to true , else its false
         s1PrimaryHeatingElectric = s1PrimaryHeatingChoice.equals("Electric");
+
+        String replaceSymbol = s1NightPercentChoice.replace("%", "").trim(); // remove the symbol and trim the space left over
+        try {
+            s1NightPercentValue = Integer.parseInt(replaceSymbol); // parse to int
+        } catch (NumberFormatException e) {
+            s1NightPercentValue = 0; // acts as a failsafe in case value is not a number, uses 0
+        }
         
-        //validation for no. of people, has to be greater than 0
-        if (s1PeopleCount <= 0) {
-            JOptionPane.showMessageDialog(null, "Number of people must be at least 1"); 
+        if (!s1DayNightRateRbtn.isSelected() && !s1FlatRateRbtn.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Go back to form 1 and select either Day & Night or Flat rate option");
             return;
         }
+
+        // determine tariff type from radio buttons
+        int tariffType;
+        if (s1DayNightRateRbtn.isSelected()) {
+            tariffType = S1Form1Input.TARIFF_DAY_NIGHT;
+        } else {
+            tariffType = S1Form1Input.TARIFF_FLAT; 
+        }
+        
+        
+        // runs calc and gets the result
+        S1Result res = Section1Logic.runCalculation(s1Period,s1KwhPeriodValue,tariffType,s1DayRateValue,s1NightRateValue,s1FlatRateValue,s1IncludeVat,s1IncludeStandingCharge,s1IncludePsoLevy,s1EnergySetup,s1PeopleCount,s1NightPercentValue,s1PrimaryHeatingElectric);
+        
+        currentResult = res;
+        
+        // displays the results
+        s1ResKwhPeriodValueLbl.setText(String.format("%.2f", res.getTotalKwhPeriod())); // kWh period
+        s1ResCostPeriodValueLbl.setText("€" + String.format("%.2f", res.getTotalCostPeriod())); // cost period
+        s1ResKwhYearValueLbl.setText(String.format("%.2f", res.getAnnualKwh())); // annual kWh
+        s1ResCostYearValueLbl.setText("€" + String.format("%.2f", res.getAnnualCost())); // annual cost
+        s1ResTypCompareValueLbl.setText(res.getTypicalComparison()); // comparison label
+        s1AdviceComparisonTa.setText(res.getAdviceText()); // advice in text area
+        //unlock the next tab
+        tabsS1.setEnabledAt(2, true);
         //moves to results tab
         tabsS1.setSelectedIndex(2);
     }//GEN-LAST:event_s1Form2NextBtnActionPerformed
@@ -765,7 +782,7 @@ public class Section1Panel extends javax.swing.JPanel {
     private void s1KwhPeriodTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1KwhPeriodTfActionPerformed
         // TODO add your handling code here:
         s1KwhPeriod = s1KwhPeriodTf.getText();//captures the text from field and stored in variable
-        
+
     }//GEN-LAST:event_s1KwhPeriodTfActionPerformed
 
     private void s1PrimaryHeatingCmboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1PrimaryHeatingCmboxActionPerformed
@@ -777,47 +794,46 @@ public class Section1Panel extends javax.swing.JPanel {
     private void s1UnitRateVatCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1UnitRateVatCbActionPerformed
         // TODO add your handling code here:
         s1IncludeVat = s1UnitRateVatCb.isSelected();
-        
+
     }//GEN-LAST:event_s1UnitRateVatCbActionPerformed
 
     private void s1DayNightRateRbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1DayNightRateRbtnActionPerformed
         // TODO add your handling code here:
-        if (s1DayNightRateRbtn.isSelected()){
-        s1DayRateTf.setVisible(true); //show the day rate text field 
-        s1DayRateLbl.setVisible(true); //show the day rate label 
-        s1NightRateTf.setVisible(true);//show the night rate text field 
-        s1NightRateLbl.setVisible(true);//show the night rate label 
-        
-  
-        s1FlatRateTf.setVisible(false);// keep flat rate text field hidden
-        s1FlatRateTf.setText(""); //clears the flat rate text when hidden
-        s1FlatRateLbl.setVisible(false);// keep flat rate label hidden
-        
-        s1UnitRateVatCb.setVisible(true); //shows the VAT cb
-        s1StandingChargeCb.setVisible(true); //shows the standing charge cb
-        s1PsoLevyCb.setVisible(true);// show PSO cb
+        if (s1DayNightRateRbtn.isSelected()) {
+            s1DayRateTf.setVisible(true); //show the day rate tf
+            s1DayRateLbl.setVisible(true); //show the day rate lbl
+            s1NightRateTf.setVisible(true);//show the night rate tf
+            s1NightRateLbl.setVisible(true);//show the night rate lbl
+
+            s1FlatRateTf.setVisible(false);// keeps the flat rate tf hidden
+            s1FlatRateTf.setText(""); //clears the flat rate tf when hidden
+            s1FlatRateLbl.setVisible(false);// keeps the flat rate lbl hidden
+
+            s1UnitRateVatCb.setVisible(true); //shows the VAT cb
+            s1StandingChargeCb.setVisible(true); //shows the standing charge cb
+            s1PsoLevyCb.setVisible(true);// show PSO cb
         }
-        
+
     }//GEN-LAST:event_s1DayNightRateRbtnActionPerformed
 
     private void s1FlatRateRbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1FlatRateRbtnActionPerformed
         // TODO add your handling code here:
-        if (s1FlatRateRbtn.isSelected()){
-        s1DayRateTf.setVisible(false); //hides the day rate text field 
-        s1DayRateLbl.setVisible(false); //hide the day rate label 
-        s1NightRateTf.setVisible(false);//hides the night rate text field 
-        s1DayRateTf.setText(""); //clears the day rate text when hidden
-        s1NightRateTf.setText("");  //clears the night text rate when hidden 
-        s1NightRateLbl.setVisible(false);//hide the night rate label
-        
-        s1FlatRateTf.setVisible(true);// shows flat rate text field 
-        s1FlatRateLbl.setVisible(true);// shows flat rate label
-        
-        s1UnitRateVatCb.setVisible(true); //shows the VAT cb
-        s1StandingChargeCb.setVisible(true); //shows the standing charge cb
-        s1PsoLevyCb.setVisible(true);// show PSO cb
+        if (s1FlatRateRbtn.isSelected()) {
+            s1DayRateTf.setVisible(false); //hides the day rate text field 
+            s1DayRateLbl.setVisible(false); //hide the day rate label 
+            s1NightRateTf.setVisible(false);//hides the night rate text field 
+            s1DayRateTf.setText(""); //clears the day rate text when hidden
+            s1NightRateTf.setText("");  //clears the night text rate when hidden 
+            s1NightRateLbl.setVisible(false);//hide the night rate label
+
+            s1FlatRateTf.setVisible(true);// shows flat rate text field 
+            s1FlatRateLbl.setVisible(true);// shows flat rate label
+
+            s1UnitRateVatCb.setVisible(true); //shows the VAT cb
+            s1StandingChargeCb.setVisible(true); //shows the standing charge cb
+            s1PsoLevyCb.setVisible(true);// show PSO cb
         }
-        
+
     }//GEN-LAST:event_s1FlatRateRbtnActionPerformed
 
     private void s1NightRateTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1NightRateTfActionPerformed
@@ -844,7 +860,7 @@ public class Section1Panel extends javax.swing.JPanel {
         // TODO add your handling code here:
         //capture selection for energy setup
         s1EnergySetup = s1EnergySetupCmbox.getSelectedItem().toString();
-        
+
     }//GEN-LAST:event_s1EnergySetupCmboxActionPerformed
 
     private void s1PeopleSpnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_s1PeopleSpnStateChanged
@@ -856,14 +872,113 @@ public class Section1Panel extends javax.swing.JPanel {
         // TODO add your handling code here:
         //gets the night percentage selection, converts to string
         s1NightPercentChoice = s1NightPercentCmbox.getSelectedItem().toString();
-        // removes the % symbol and removes blank space
-        String replaceSymbol = s1NightPercentChoice.replace("%","").trim();
-        try{
-           s1NightPercentValue = Integer.parseInt(replaceSymbol); //parses string to int here
-        }catch(NumberFormatException e) {
-            s1NightPercentValue = 0; //if it not a number, this is a safe fallback i.e failsafe to set value to 0
-        }
     }//GEN-LAST:event_s1NightPercentCmboxActionPerformed
+
+    private void s1ResultsSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1ResultsSaveBtnActionPerformed
+        // TODO add your handling code here:
+        String costPeriodText = s1ResCostPeriodValueLbl.getText().trim();
+        if (costPeriodText.equals("\"\"") || costPeriodText.equals("")){
+            JOptionPane.showMessageDialog(null,"No results are available to save");
+            return;
+        }
+        double costPeriod = Double.parseDouble(s1ResCostPeriodValueLbl.getText().replace("€", "").trim());
+        double kwhYear = Double.parseDouble(s1ResKwhYearValueLbl.getText().trim());
+        double costYear = Double.parseDouble(s1ResCostYearValueLbl.getText().replace("€", "").trim());
+        
+        currentResult = new S1Result(s1KwhPeriodValue,costPeriod,kwhYear,costYear,s1ResTypCompareValueLbl.getText(),s1AdviceComparisonTa.getText());
+        
+        //when results are saved to file
+        resultStore.addResult(currentResult);
+        JOptionPane.showMessageDialog(null, "Result is saved. Total saved: " + resultStore.getCount());
+    }//GEN-LAST:event_s1ResultsSaveBtnActionPerformed
+
+    private void s1ResultsRemoveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1ResultsRemoveBtnActionPerformed
+        // TODO add your handling code here:
+        //declare boolean var
+        boolean removed = resultStore.removeLastResult();
+        // validation when no new data to remove
+        if (!removed) {
+        JOptionPane.showMessageDialog(null, "Nothing to remove. No saved results yet.");
+        return;
+        }
+        //when removed 
+        JOptionPane.showMessageDialog(null, "Last saved result removed. Total saved: " + resultStore.getCount());
+    }//GEN-LAST:event_s1ResultsRemoveBtnActionPerformed
+
+    private void s1ResultsResetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1ResultsResetBtnActionPerformed
+        // TODO add your handling code here:
+        // reset values
+        s1KwhPeriod = "";
+        s1NightRate = "";
+        s1DayRate = "";
+        s1FlatRate = "";
+        s1Period = "";
+
+        s1IncludeVat = false;
+        s1IncludeStandingCharge = false;
+        s1IncludePsoLevy = false;
+
+        s1KwhPeriodValue = 0.0;
+        s1DayRateValue = 0.0;
+        s1NightRateValue = 0.0;
+        s1FlatRateValue = 0.0;
+
+        s1EnergySetup = "";
+        s1PeopleCount = 1;
+        s1NightPercentChoice = "";
+        s1NightPercentValue = 0;
+        s1PrimaryHeatingChoice = "";
+        s1PrimaryHeatingElectric = false;
+
+        currentResult = null;
+
+        // clears form 1
+        s1PeriodCmbox.setSelectedIndex(0);
+        s1KwhPeriodTf.setText("");
+
+        s1DayNightRateRbtn.setSelected(false);
+        s1FlatRateRbtn.setSelected(false);
+
+        s1DayRateTf.setText("");
+        s1NightRateTf.setText("");
+        s1FlatRateTf.setText("");
+
+        s1UnitRateVatCb.setSelected(false);
+        s1StandingChargeCb.setSelected(false);
+        s1PsoLevyCb.setSelected(false);
+
+        // hides all rates tf/cb
+        s1DayRateTf.setVisible(false);
+        s1NightRateTf.setVisible(false);
+        s1FlatRateTf.setVisible(false);
+        s1UnitRateVatCb.setVisible(false);
+        s1StandingChargeCb.setVisible(false);
+        s1PsoLevyCb.setVisible(false);
+
+        s1DayRateLbl.setVisible(false);
+        s1NightRateLbl.setVisible(false);
+        s1FlatRateLbl.setVisible(false);
+
+        // clears Form 2 
+        s1EnergySetupCmbox.setSelectedIndex(0);
+        s1PeopleSpn.setValue(1);
+        s1NightPercentCmbox.setSelectedIndex(0);
+        s1PrimaryHeatingCmbox.setSelectedIndex(0);
+
+        // reset the labels and text area in result tab
+        s1ResKwhPeriodValueLbl.setText("");
+        s1ResCostPeriodValueLbl.setText("");
+        s1ResKwhYearValueLbl.setText("");
+        s1ResCostYearValueLbl.setText("");
+        s1ResTypCompareValueLbl.setText("");
+        s1AdviceComparisonTa.setText("");
+
+        // lock the tabs and go back to Form 1
+        tabsS1.setEnabledAt(1, false);
+        tabsS1.setEnabledAt(2, false);
+        tabsS1.setSelectedIndex(0);
+        
+    }//GEN-LAST:event_s1ResultsResetBtnActionPerformed
 
     public void goForm1() {
         tabsS1.setSelectedIndex(0);
@@ -876,7 +991,7 @@ public class Section1Panel extends javax.swing.JPanel {
     public void goResults() {
         tabsS1.setSelectedIndex(2);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Form1;
@@ -884,9 +999,6 @@ public class Section1Panel extends javax.swing.JPanel {
     private javax.swing.JPanel Results;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane s1AdviceComparisonScrl;
     private javax.swing.JTextArea s1AdviceComparisonTa;
@@ -924,7 +1036,9 @@ public class Section1Panel extends javax.swing.JPanel {
     private javax.swing.JLabel s1ResKwhYearValueLbl;
     private javax.swing.JLabel s1ResTypCompareValueLbl;
     private javax.swing.JButton s1ResultsBackBtn;
-    private javax.swing.JLabel s1ResultsCardTitleLbl;
+    private javax.swing.JButton s1ResultsRemoveBtn;
+    private javax.swing.JButton s1ResultsResetBtn;
+    private javax.swing.JButton s1ResultsSaveBtn;
     private javax.swing.JCheckBox s1StandingChargeCb;
     private javax.swing.JLabel s1TariffTypeLbl;
     private javax.swing.JLabel s1TotalPeriodCostLbl;

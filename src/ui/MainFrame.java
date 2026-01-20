@@ -17,6 +17,9 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(true);
     }
     
     public void goLanding() {
@@ -75,7 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
         tabsMain.addTab("Landing", Landing);
 
         Section1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        Section1.add(section1Panel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 590, 433));
+        Section1.add(section1Panel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 680, 580));
 
         tabsMain.addTab("Usage & Cost", Section1);
 
